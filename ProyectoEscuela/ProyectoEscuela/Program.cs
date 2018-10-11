@@ -7,6 +7,7 @@ namespace ProyectoEscuela
     {
         AdministraAula AA = new AdministraAula();
         AdministraMateria AM = new AdministraMateria();
+        AdministraMaestro AMAE = new AdministraMaestro();
 
         static void Main(string[] args)
         {
@@ -23,7 +24,8 @@ namespace ProyectoEscuela
                     Console.WriteLine("__________________________________________\n");
                     Console.WriteLine(" (1)  Aula ");
                     Console.WriteLine(" (2)  Materia");
-                    Console.WriteLine(" (3)  Salir\n");
+                    Console.WriteLine(" (3)  Maestro");
+                    Console.WriteLine(" (4)  Salir\n");
                     Console.WriteLine("SELECCIONE UNA OPCIÓN");
 
                     opc = Convert.ToInt32(Console.ReadLine());
@@ -42,9 +44,12 @@ namespace ProyectoEscuela
                         p.AM.MenuMateria(p.AM.ListMateria, p.AA.ListAula);
                         break;
                     case 3:
+                        p.AMAE.MenuMateria(p.AMAE.ListMaestro);
+                        break;
+                    case 4:
                         break;
                 }
-            } while (opc != 3);
+            } while (opc != 4);
         }
     }
 }

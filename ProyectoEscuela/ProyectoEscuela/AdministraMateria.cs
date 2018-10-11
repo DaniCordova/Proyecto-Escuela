@@ -16,8 +16,7 @@ namespace ProyectoEscuela
 
         public void MenuMateria(List<Materia> ListMat, List<Aula> ListAu)
         {
-
-
+            Console.Clear();
             int opc = 0;
 
             do

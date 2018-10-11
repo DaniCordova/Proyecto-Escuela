@@ -8,11 +8,11 @@ namespace ProyectoEscuela
 {
     class AdministraMaestro
     {
-        List<Maestro> ListMaestro = new List<Maestro>();
-        AdministraMaestro AMa = new AdministraMaestro();
+        public List<Maestro> ListMaestro = new List<Maestro>();
 
-        public void MenuMateria(List<Materia> ListMat, List<Aula> ListAu)
+        public void MenuMateria(List<Maestro> ListMae)
         {
+            Console.Clear();
             int opc = 0;
 
             do
@@ -39,9 +39,12 @@ namespace ProyectoEscuela
                 switch (opc)
                 {
                     case 1:
-                        AgregarMaestro(ListMaestro);
+                        AgregarMaestro(ListMae);
                         break;
                     case 2:
+                        Reporte();
+                        break;
+                    case 3:
                         break;
                 }
             } while (opc != 3);
@@ -56,9 +59,7 @@ namespace ProyectoEscuela
             string formacionAcademica = "";
             string horario = "";
 
-
             Console.WriteLine("\n Agregar Materia\n");
-
             do
             {
                 try
@@ -83,8 +84,7 @@ namespace ProyectoEscuela
             horario = Console.ReadLine();
 
             Maestro mae = new Maestro(clave, nombre, formacionAcademica, horario);
-
-            ListMaestro.Add(mae);
+            ListMae.Add(mae);
         }
 
         /* ///////////////////////////////////////////////////////////////////// */
@@ -103,5 +103,15 @@ namespace ProyectoEscuela
             return bandera;
         }
 
+        /* ///////////////////////////////////////////////////////////////////// */
+
+        public void Reporte()
+        {
+            foreach (Maestro m in ListMaestro)
+            {
+                Console.WriteLine("Clave del maestro: {0} | Nombre del maestro: {1} | Formación académica: {2} | Horario: {3}", m.pClave, m.pNombre, m.pFormacionAcademica, m.pHorario);
+                Console.WriteLine();
+            }
+        }
     }
 }

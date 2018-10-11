@@ -14,8 +14,7 @@ namespace ProyectoEscuela
 
         public void MenuAula(List<Aula> ListAu)
         {
-
-
+            Console.Clear();
             int opc = 0;
             do
             {

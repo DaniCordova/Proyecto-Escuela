@@ -68,7 +68,5 @@ namespace ProyectoEscuela
                 horario = value;
             }
         }
-
-
     }
 }
