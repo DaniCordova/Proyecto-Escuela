@@ -13,11 +13,12 @@ namespace ProyectoEscuela
         string formacionAcademica;
         string horario;
 
-        public Maestro(int Clave, string Nombre, string FormacionAcademica)
+        public Maestro(int Clave, string Nombre, string FormacionAcademica, string Horario)
         {
             clave = Clave;
             nombre = Nombre;
             formacionAcademica = FormacionAcademica;
+            horario = Horario;
         }
 
         public int pClave
