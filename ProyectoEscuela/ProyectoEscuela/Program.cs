@@ -51,15 +51,35 @@ namespace ProyectoEscuela
                         p.AMAE.MenuMaestro(p.AMAE.ArrMaestro);
                         break;
                     case 4:
+                        if (p.AM.dicAsignacion.Count == 0)
+                        {
+                            Console.WriteLine("Todavía no hay aulas asignadas");
+                            break;
+                        }
                         p.AM.ConsultaAsignacionAulas();
                         break;
                     case 5:
+                        if (p.AM.dicAsignacion.Count == 0)
+                        {
+                            Console.WriteLine("Todavía no hay aulas asignadas");
+                            break;
+                        }
                         p.AM.ConsultaDeMaestros();
                         break;
                     case 6:
+                        if (p.AM.dicAsignacion.Count == 0)
+                        {
+                            Console.WriteLine("Todavía no hay aulas asignadas");
+                            break;
+                        }
                         p.AM.ModificaAsignacion();
                         break;
                     case 7:
+                        if (p.AM.dicAsignacion.Count == 0)
+                        {
+                            Console.WriteLine("Todavía no hay aulas asignadas");
+                            break;
+                        }
                         p.AM.Reporte();
                         break;
                     case 8:
@@ -68,4 +88,12 @@ namespace ProyectoEscuela
             } while (opc != 8);
         }
     }
+    /* 
+    PROYECTO ELABORADO POR:
+    DANIEL ALBERTO CÓRDOVA GARCÍA.
+    MÓNICA DURÁN ORTEGA.
+    DANIA MARÍA VALENZUELA MONARREZ.
+
+    PARA LA CLASE PROGRAMACIÓN II - UNIDAD I
+     */
 }
