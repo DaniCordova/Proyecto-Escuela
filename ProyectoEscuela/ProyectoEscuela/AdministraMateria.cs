@@ -8,13 +8,13 @@ namespace ProyectoEscuela
 {
     class AdministraMateria
     {
-        public List<Materia> ListMateria = new List<Materia>();
         AdministraAula AA = new AdministraAula();
-        Dictionary<int, Materia> dicMateria = new Dictionary<int, Materia>();
+        AdministraMaestro AMAE = new AdministraMaestro();
+        public Dictionary<string, Materia> dicAsignacion = new Dictionary<string, Materia>();
 
         /* ///////////////////////////////////////////////////////////////////// */
 
-        public void MenuMateria(List<Materia> ListMat, List<Aula> ListAu)
+        public void MenuMateria(Dictionary<string, Materia> dicAsig, List<Aula> ListAu, Maestro[] ArrMae)
         {
             Console.Clear();
             int opc = 0;
@@ -28,9 +28,8 @@ namespace ProyectoEscuela
                     Console.WriteLine("                Materia  ");
                     Console.WriteLine("__________________________________________");
 
-                    Console.WriteLine(" (1) Agregar Materia ");
-                    Console.WriteLine(" (2) Reporte Materia");
-                    Console.WriteLine(" (3) Salir");
+                    Console.WriteLine(" (1) Asignar aula a maestro ");
+                    Console.WriteLine(" (2) Salir");
                     Console.WriteLine();
                     Console.WriteLine("SELECCIONE UNA OPCION");
                     opc = Convert.ToInt32(Console.ReadLine());
@@ -43,23 +42,23 @@ namespace ProyectoEscuela
                 switch (opc)
                 {
                     case 1:
-                        AgregarMaterias(ListMat, ListAu);
+                        AgregarMaterias(dicAsig, ListAu, ArrMae);
                         break;
                     case 2:
-                        Reporte();
                         break;
                 }
-            } while (opc != 3);
+            } while (opc != 2);
         }
 
         /* ///////////////////////////////////////////////////////////////////// */
 
-        public void AgregarMaterias(List<Materia> ListMat, List<Aula> ListAu)
+        public void AgregarMaterias(Dictionary<string, Materia> dicAsig, List<Aula> ListAu, Maestro[] ArrMae)
         {
+            Console.Clear();
 
             string nombreMateria = "";
-            string nombreMaestro = "";
-            string clave = "";
+            int claveMaestro = 0;
+            string claveAula = "";
             int hora = 0;
 
             Console.WriteLine("\n Agregar Materia\n");
@@ -67,7 +66,7 @@ namespace ProyectoEscuela
             do
             {
                 Console.WriteLine("Nombre de la materia");
-                nombreMateria = Console.ReadLine();
+                nombreMateria = Console.ReadLine().ToUpper();
                 if (nombreMateria == "")
                 {
                     Console.WriteLine("El campo está vacio");
@@ -76,20 +75,27 @@ namespace ProyectoEscuela
 
             do
             {
-                Console.WriteLine("Nombre del maestro");
-                nombreMaestro = Console.ReadLine();
-                if (nombreMaestro == "")
+                try
                 {
-                    Console.WriteLine("El campo está vacio");
+                    Console.WriteLine("Clave del maestro");
+                    claveMaestro = Convert.ToInt32(Console.ReadLine());
+                    if (claveMaestro == 0)
+                    {
+                        Console.WriteLine("El campo está vacio");
+                    }
                 }
-            } while (nombreMaestro == "");
+                catch
+                {
+                    Console.WriteLine("Solo números para clave de maestro.");
+                }
+            } while (AMAE.BuscaClave(claveMaestro, ArrMae) == false);
 
             do
             {
                 Console.WriteLine("Clave del Aula");
-                ReporteAula(ListAu);
-                clave = Console.ReadLine();
-            } while (BuscaClave(clave, ListAu) == false);
+                AA.Reporte(ListAu);
+                claveAula = Console.ReadLine().ToUpper();
+            } while (BuscaClave(claveAula, ListAu) == false);
 
 
             do
@@ -110,15 +116,17 @@ namespace ProyectoEscuela
 
             } while (hora < 7 || hora > 20);
 
-            if (ValidaHoraMate(clave, hora))
+            if (ValidaHoraMate(claveAula, hora))
             {
                 Console.WriteLine("EL Aula Esta Ocupada");
-                MenuMateria(ListMat, ListAu);
+                Console.ReadLine();
+                MenuMateria(dicAsig, ListAu, ArrMae);
             }
             else
             {
-                Materia ma = new Materia(nombreMateria, nombreMaestro, clave, hora);
-                ListMateria.Add(ma);
+                string claveCompuesta = hora+claveAula;
+                Materia ma = new Materia(nombreMateria, claveMaestro, claveAula, hora);
+                dicAsignacion.Add(claveCompuesta, ma);
             }
         }
 
@@ -126,9 +134,12 @@ namespace ProyectoEscuela
 
         public void Reporte()
         {
-            foreach (Materia m in ListMateria)
+            Console.Clear();
+            foreach (var key in dicAsignacion.Keys)
             {
-                Console.WriteLine("Nombre de la materia {0} | Nombre del maestro {1} | Aula {2} | hora {3}", m.pNombreMateria, m.pNombreMaestro, m.pClaveAula, m.pHora);
+                Materia mat = dicAsignacion[key];
+                Console.WriteLine("Clave: {0} | Nombre de la materia: {1} | Clave del maestro: {2} | Aula: {3} | Hora: {4}", key, mat.pNombreMateria, mat.pClaveMaestro, mat.pClaveAula, mat.pHora);
+                Console.WriteLine();
             }
         }
 
@@ -138,14 +149,12 @@ namespace ProyectoEscuela
         {
             bool bandera = false;
 
-            foreach (Materia m in ListMateria)
+            foreach (var key in dicAsignacion.Keys)
             {
-                if (m.pClaveAula == aula)
+                Materia mat = dicAsignacion[key];
+                if (mat.pClaveAula == aula && mat.pHora == hora)
                 {
-                    if (m.pHora == hora)
-                    {
-                        bandera = true;
-                    }
+                        bandera = true; 
                 }
             }
             return bandera;
@@ -167,15 +176,121 @@ namespace ProyectoEscuela
             return bandera;
         }
 
+        /* ///////////////////////////////////////////////////////////////////// */
 
-        public void ReporteAula(List<Aula> ListAu)
+        public void ConsultaAsignacionAulas()
         {
-            foreach (Aula a in ListAu)
+            Console.Clear();
+            string claveAula = "";
+
+            do
             {
-                Console.WriteLine("Clave: {0} | Edificio: {1} | Descripción: {2}", a.pClave, a.pNombreEdificio, a.pDescripcion);
+                try
+                {
+                    Console.WriteLine("Escribe la clave del aula: ");
+                    claveAula = Console.ReadLine().ToUpper();
+                }
+                catch
+                {
+                    Console.WriteLine("Ejemplo: B01");
+                }
+            } while(claveAula == "");
+
+
+            Console.WriteLine("\nAulas asignadas a la clave: {0}\n", claveAula);
+
+            foreach (var key in dicAsignacion.Keys)
+            {
+                Materia mat = dicAsignacion[key];
+                if(claveAula == mat.pClaveAula)
+                {
+                    Console.WriteLine("Clave: {0} | Nombre de la materia: {1} | Clave del maestro: {2} | Aula: {3} | Hora: {4}", key, mat.pNombreMateria, mat.pClaveMaestro, mat.pClaveAula, mat.pHora);
+                }
             }
-            Console.WriteLine();
+            Console.ReadLine();
         }
 
+        /* ///////////////////////////////////////////////////////////////////// */
+
+        public void ConsultaDeMaestros()
+        {
+            Console.Clear();
+            int claveMaestro = 0;
+
+            do
+            {
+                try
+                {
+                    Console.WriteLine("Escribe la clave del maestro: ");
+                    claveMaestro = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Escribe solo números.");
+                }
+            }while (claveMaestro == 0);
+
+            Console.WriteLine("\nHorarios de los maestros: {0}\n", claveMaestro);
+
+            foreach (var key in dicAsignacion.Keys)
+            {
+                Materia mat = dicAsignacion[key];
+                if (claveMaestro == mat.pClaveMaestro)
+                {
+                    Console.WriteLine("Clave: {0} | Nombre de la materia: {1} | Aula: {2} | Hora: {3}", key, mat.pNombreMateria, mat.pClaveAula, mat.pHora);
+                }
+            }
+            Console.ReadLine();
+        }
+
+        /* ///////////////////////////////////////////////////////////////////// */
+
+        public void ModificaAsignacion()
+        {
+            string claveAula = "";
+            int hora = 0;
+            int claveMaestro = 0;
+            string materia = "";
+
+            Console.WriteLine("Modificar asignación de aulas.\n");
+
+            Console.WriteLine("Ingrese la clave del aula");
+            claveAula = Console.ReadLine().ToUpper();
+
+            Console.WriteLine("Ingrese la hora");
+            hora = Convert.ToInt32(Console.ReadLine());
+
+            foreach (var key in dicAsignacion.Keys)
+            {
+                Materia mat = dicAsignacion[key];
+                if (claveAula == mat.pClaveAula)
+                {
+                    if(hora == mat.pHora)
+                    {
+                        do
+                        {
+                            try
+                            {
+                                Console.WriteLine("Ingrese la nueva clave de maestro.");
+                                claveMaestro = Convert.ToInt32(Console.ReadLine());
+                            }
+                            catch
+                            {
+                                Console.WriteLine("Solo números,.");
+                            }
+                        } while(claveMaestro == 0);
+
+                        Console.WriteLine("Ingrese la nueva materia.");
+                        materia = Console.ReadLine().ToUpper();
+
+                        mat.pClaveMaestro = claveMaestro;
+                        mat.pNombreMateria = materia;
+                    }
+                }
+            }
+
+            /* ///////////////////////////////////////////////////////////////////// */
+
+        }
     }
 }

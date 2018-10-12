@@ -8,9 +8,10 @@ namespace ProyectoEscuela
 {
     class AdministraMaestro
     {
-        public List<Maestro> ListMaestro = new List<Maestro>();
+        static int numMaestro = 0; 
+        public Maestro[] ArrMaestro = new Maestro[10];
 
-        public void MenuMateria(List<Maestro> ListMae)
+        public void MenuMaestro(Maestro[] ArrMae)
         {
             Console.Clear();
             int opc = 0;
@@ -39,7 +40,7 @@ namespace ProyectoEscuela
                 switch (opc)
                 {
                     case 1:
-                        AgregarMaestro(ListMae);
+                        AgregarMaestro(ArrMae);
                         break;
                     case 2:
                         Reporte();
@@ -52,8 +53,9 @@ namespace ProyectoEscuela
 
         /* ///////////////////////////////////////////////////////////////////// */
 
-        public void AgregarMaestro(List<Maestro> ListMae)
+        public void AgregarMaestro(Maestro[] ArrMae)
         {
+            Console.Clear();
             int clave = 0;
             string nombre = "";
             string formacionAcademica = "";
@@ -72,7 +74,7 @@ namespace ProyectoEscuela
                     Console.WriteLine("Ingresa solo números");
                 }
 
-            } while (BuscaClave(clave, ListMae));
+            } while (BuscaClave(clave, ArrMae));
 
             Console.WriteLine("Ingresa el nombre del maestro: ");
             nombre = Console.ReadLine();
@@ -84,22 +86,26 @@ namespace ProyectoEscuela
             horario = Console.ReadLine();
 
             Maestro mae = new Maestro(clave, nombre, formacionAcademica, horario);
-            ListMae.Add(mae);
+            ArrMae[numMaestro] = mae;
+            numMaestro++;
         }
 
         /* ///////////////////////////////////////////////////////////////////// */
 
-        public bool BuscaClave(int clave, List<Maestro> ListMae)
+        public bool BuscaClave(int clave, Maestro[] ArrMae)
         {
             bool bandera = false;
 
-            foreach (Maestro m in ListMae)
-            {
-                if (m.pClave == clave)
+            for(int i = 0; i < numMaestro; i++)
                 {
-                    bandera = true;
+                    
+                    if (ArrMae[i].pClave == clave)
+                    {
+                        bandera = true;
+                    }
+                    
                 }
-            }
+            
             return bandera;
         }
 
@@ -107,9 +113,9 @@ namespace ProyectoEscuela
 
         public void Reporte()
         {
-            foreach (Maestro m in ListMaestro)
+            for(int i = 0; i<numMaestro; i++)
             {
-                Console.WriteLine("Clave del maestro: {0} | Nombre del maestro: {1} | Formación académica: {2} | Horario: {3}", m.pClave, m.pNombre, m.pFormacionAcademica, m.pHorario);
+                Console.WriteLine("Clave del maestro: {0} | Nombre del maestro: {1} | Formación académica: {2} | Horario: {3}", ArrMaestro[i].pClave, ArrMaestro[i].pNombre, ArrMaestro[i].pFormacionAcademica, ArrMaestro[i].pHorario);
                 Console.WriteLine();
             }
         }

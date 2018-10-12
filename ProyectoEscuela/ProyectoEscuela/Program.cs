@@ -25,7 +25,11 @@ namespace ProyectoEscuela
                     Console.WriteLine(" (1)  Aula ");
                     Console.WriteLine(" (2)  Materia");
                     Console.WriteLine(" (3)  Maestro");
-                    Console.WriteLine(" (4)  Salir\n");
+                    Console.WriteLine(" (4)  Consulta de asignacion de aulas");
+                    Console.WriteLine(" (5)  Consulta de maestros");
+                    Console.WriteLine(" (6)  Modificacion de asignacion de aulas");
+                    Console.WriteLine(" (7)  Impresión de todos los horarios y aulas asignadas");
+                    Console.WriteLine(" (8)  Salir\n");
                     Console.WriteLine("SELECCIONE UNA OPCIÓN");
 
                     opc = Convert.ToInt32(Console.ReadLine());
@@ -41,15 +45,27 @@ namespace ProyectoEscuela
                         p.AA.MenuAula(p.AA.ListAula);
                         break;
                     case 2:
-                        p.AM.MenuMateria(p.AM.ListMateria, p.AA.ListAula);
+                        p.AM.MenuMateria(p.AM.dicAsignacion, p.AA.ListAula, p.AMAE.ArrMaestro);
                         break;
                     case 3:
-                        p.AMAE.MenuMateria(p.AMAE.ListMaestro);
+                        p.AMAE.MenuMaestro(p.AMAE.ArrMaestro);
                         break;
                     case 4:
+                        p.AM.ConsultaAsignacionAulas();
+                        break;
+                    case 5:
+                        p.AM.ConsultaDeMaestros();
+                        break;
+                    case 6:
+                        p.AM.ModificaAsignacion();
+                        break;
+                    case 7:
+                        p.AM.Reporte();
+                        break;
+                    case 8:
                         break;
                 }
-            } while (opc != 4);
+            } while (opc != 7);
         }
     }
 }

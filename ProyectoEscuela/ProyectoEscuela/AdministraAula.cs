@@ -10,6 +10,7 @@ namespace ProyectoEscuela
     {
         public List<Aula> ListAula = new List<Aula>();
 
+
         /* ///////////////////////////////////////////////////////////////////// */
 
         public void MenuAula(List<Aula> ListAu)
@@ -42,7 +43,7 @@ namespace ProyectoEscuela
                         AgregarAulas(ListAu);
                         break;
                     case 2:
-                        Reporte();
+                        Reporte(ListAu);
                         break;
                     case 3:
                         break;
@@ -54,6 +55,7 @@ namespace ProyectoEscuela
 
         public void AgregarAulas(List<Aula> ListAu)
         {
+            Console.Clear();
 
             Console.WriteLine();
             Console.WriteLine("Agregar aula:\n");
@@ -64,14 +66,14 @@ namespace ProyectoEscuela
             do
             {
                 Console.WriteLine("Nombre del aula");
-                clave = Console.ReadLine();
+                clave = Console.ReadLine().ToUpper();
             } while (BuscaClave(clave) == true);
 
 
             do
             {
                 Console.WriteLine("Nombre del edificio");
-                nombreE = Console.ReadLine();
+                nombreE = Console.ReadLine().ToUpper();
                 if (nombreE == "")
                 {
                     Console.WriteLine("El campo está vacío");
@@ -93,10 +95,15 @@ namespace ProyectoEscuela
 
         /* ///////////////////////////////////////////////////////////////////// */
 
-        public void Reporte()
+        public void Reporte(List<Aula> ListAu)
         {
-            foreach (Aula a in ListAula)
+            foreach (Aula a in ListAu)
             {
+                if(a.pClave == "")
+                {
+                    Console.WriteLine("Todavía no hay aulas dadas de alta.");
+                    break;
+                }
                 Console.WriteLine("Clave: {0} | Edificio: {1} | Descripción: {2}", a.pClave, a.pNombreEdificio, a.pDescripcion);
             }
             Console.WriteLine();
@@ -119,6 +126,8 @@ namespace ProyectoEscuela
         }
 
         /* ///////////////////////////////////////////////////////////////////// */
+
+
 
     }
 }

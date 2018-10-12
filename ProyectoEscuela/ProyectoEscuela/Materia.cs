@@ -9,14 +9,14 @@ namespace ProyectoEscuela
     class Materia
     {
         public string nombreMateria;
-        public string nombreMaestro;
+        public int claveMaestro;
         public string claveAula;
         public int hora;
 
-        public Materia(string NombreMateria, string NombreMaestro, string ClaveAula, int Hora)
+        public Materia(string NombreMateria, int ClaveMaestro, string ClaveAula, int Hora)
         {
             nombreMateria = NombreMateria;
-            nombreMaestro = NombreMaestro;
+            claveMaestro = ClaveMaestro;
             claveAula = ClaveAula;
             hora = Hora;
         }
@@ -33,15 +33,15 @@ namespace ProyectoEscuela
             }
         }
 
-        public string pNombreMaestro
+        public int pClaveMaestro
         {
             get
             {
-                return nombreMaestro;
+                return claveMaestro;
             }
             set
             {
-                nombreMaestro = value;
+                claveMaestro = value;
             }
         }
 
