@@ -8,7 +8,7 @@ namespace ProyectoEscuela
 {
     class AdministraMaestro
     {
-        static int numMaestro = 0; 
+        public static int numMaestro = 0; 
         public Maestro[] ArrMaestro = new Maestro[10];
 
         public void MenuMaestro(Maestro[] ArrMae)
@@ -116,8 +116,8 @@ namespace ProyectoEscuela
             for(int i = 0; i<numMaestro; i++)
             {
                 Console.WriteLine("Clave del maestro: {0} | Nombre del maestro: {1} | Formación académica: {2} | Horario: {3}", ArrMaestro[i].pClave, ArrMaestro[i].pNombre, ArrMaestro[i].pFormacionAcademica, ArrMaestro[i].pHorario);
-                Console.WriteLine();
             }
+            Console.ReadLine();
         }
     }
 }

@@ -42,7 +42,15 @@ namespace ProyectoEscuela
                 switch (opc)
                 {
                     case 1:
-                        AgregarMaterias(dicAsig, ListAu, ArrMae);
+                        if(ListAu.Count == 0 || ArrMae[0] == null)
+                        {
+                            Console.WriteLine("Debe de haber Maestros y Aulas dadas de alta.");
+                            break;
+                        }
+                        else
+                        {
+                            AgregarMaterias(dicAsig, ListAu, ArrMae);
+                        }
                         break;
                     case 2:
                         break;
@@ -141,6 +149,7 @@ namespace ProyectoEscuela
                 Console.WriteLine("Clave: {0} | Nombre de la materia: {1} | Clave del maestro: {2} | Aula: {3} | Hora: {4}", key, mat.pNombreMateria, mat.pClaveMaestro, mat.pClaveAula, mat.pHora);
                 Console.WriteLine();
             }
+            Console.ReadLine();
         }
 
         /* ///////////////////////////////////////////////////////////////////// */

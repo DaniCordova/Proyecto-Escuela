@@ -65,7 +65,7 @@ namespace ProyectoEscuela
                     case 8:
                         break;
                 }
-            } while (opc != 7);
+            } while (opc != 8);
         }
     }
 }
